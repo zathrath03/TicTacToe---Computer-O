@@ -29,7 +29,6 @@ def checkwinner(player):
             or (board[8] == board[4] == board[0] != " ")):
         drawboard()
         print(f"Player {player} wins!")
-        promptPlayAgain()
         return True
 
 
@@ -43,7 +42,7 @@ def promptPlayAgain():
     if guess == "yes" or guess == "y":
         for i in range(len(board)):
             board[i] = str(i + 1)
-        game()
+        return True
 
 
 def OsChoice():
@@ -109,7 +108,6 @@ def game():
     )
     input("Press Enter to continue")
 
-    #TODO: Fix loop condition, check winner, and play again so I don't keep going deeper into levels of functions when players play again
     while True: 
         drawboard()
         print(f"It is {player}'s turn. Please choose a square.")
@@ -149,7 +147,6 @@ def game():
         if turn == 9:
             drawboard()
             print("It's a draw!")
-            promptPlayAgain()
             break
 
         board[OsChoice()] = "O"
@@ -161,3 +158,5 @@ def game():
 
 if __name__ == "__main__":
     game()
+    while promptPlayAgain():
+        game()
