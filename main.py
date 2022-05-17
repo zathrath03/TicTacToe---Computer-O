@@ -62,10 +62,10 @@ def OsChoice():
     if 4 in valid:
         valid = [4]
     # Prioritizes 3 Os, then block 3 Xs
-    elif len(winorblock(os, valid)) > 0:
-        valid = winorblock(os, valid)
-    elif len(winorblock(xs, valid)) > 0:
-        valid = winorblock(xs, valid)
+    elif len(temp = winorblock(os, valid)) > 0:
+        valid = temp
+    elif len(temp = winorblock(xs, valid)) > 0:
+        valid = temp
     # If it's the fourth turn, O is in center, and X has at least one corner, take an edge
     elif len(valid) == 6 and 4 in os and any(i in xs for i in (0, 2, 4, 6)):
         valid = list(set(valid) & {1, 3, 5, 7})
