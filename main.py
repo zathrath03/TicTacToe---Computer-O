@@ -41,10 +41,14 @@ def clearboard():
 
 
 def promptPlayAgain():
+    global valid, xs, os
     guess = input("Enter yes to play again. ").lower()
     if guess == "yes" or guess == "y":
         for i in range(len(board)):
             board[i] = str(i + 1)
+        valid = [0,1,2,3,4,5,6,7,8,9]
+        xs = []
+        os = []
         return True
 
 
@@ -62,22 +66,25 @@ def OsChoice():
         elif board[i] == "O":
             os.append(i)
     """
+    global valid
+    
     # If it's the second turn and the center isn't taken, take the center
     if 4 in valid:
-        valid = [4]
+        choice = [4]
     # Prioritizes 3 Os, then block 3 Xs
     elif len(temp := winorblock(os, valid)) > 0:
-        valid = temp
+        choice = temp
     elif len(temp := winorblock(xs, valid)) > 0:
-        valid = temp
+        choice = temp
     # If it's the fourth turn, O is in center, and X has at least one corner, take an edge
     elif len(valid) == 6 and 4 in os and any(i in xs for i in (0, 2, 4, 6)):
-        valid = list(set(valid) & {1, 3, 5, 7})
+        choice = list(set(valid) & {1, 3, 5, 7})
     # Otherwise, take a corner if available
     elif 0 in valid or 2 in valid or 6 in valid or 8 in valid:
-        valid = list(set(valid) & {0, 2, 6, 8})
-
-    return random.choice(valid)
+        choice = list(set(valid) & {0, 2, 6, 8})
+    else: choice = valid
+    
+    return random.choice(choice)
 
 
 def winorblock(positions, valid):
