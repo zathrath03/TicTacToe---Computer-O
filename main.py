@@ -2,6 +2,9 @@ from os import system, name
 import random
 
 board = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+valid = [0,1,2,3,4,5,6,7,8,9]
+xs = []
+os = []
 
 def drawboard():
     # Clears the screen
@@ -46,6 +49,7 @@ def promptPlayAgain():
 
 
 def OsChoice():
+    """
     valid = []
     xs = []
     os = []
@@ -57,7 +61,7 @@ def OsChoice():
             xs.append(i)
         elif board[i] == "O":
             os.append(i)
-
+    """
     # If it's the second turn and the center isn't taken, take the center
     if 4 in valid:
         valid = [4]
@@ -117,9 +121,9 @@ def game():
         except ValueError:
             drawboard()
             print(
-                f"{choice} is not a valid input. Enter a number from 1 to 9 to select a square. Press Enter to continue."
+                f"{choice} is not a valid input. Enter a number from 1 to 9 to select a square."
             )
-            input()
+            input("Press Enter to continue.")
             continue
 
         if choice < 1 or choice > 9:
@@ -139,6 +143,8 @@ def game():
             continue
 
         board[choice - 1] = player
+        xs.append(choice-1)
+        valid.remove(choice-1)
         turn += 1
 
         if turn >= 5 and checkwinner(player):
@@ -149,7 +155,10 @@ def game():
             print("It's a draw!")
             break
 
-        board[OsChoice()] = "O"
+        choice = OsChoice()
+        board[choice] = "O"
+        os.append(choice)
+        valid.remove(choice)
         turn += 1
         
         if turn >= 5 and checkwinner("O"):
