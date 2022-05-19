@@ -94,37 +94,35 @@ def winorblock(positions, valid):
     return list(set(best) & set(valid))
 
 
-def game():
-    turn = 0
-
+def welcomePlayer():
     drawboard()
     clearboard()
-
+    
     print(
         "Welcome to tic-tac-toe! You'll be using the numbers above to indicate where you want to play.\n(looks like your numpad)"
     )
     input("Press Enter to continue")
 
-    while True: 
+
+def promptCorrectEntry(choice):
+    drawboard()
+    print(f"{choice} is not a valid input. Enter a number from 1 to 9 to select a square.")
+    input("Press Enter to continue.")
+
+
+def getPlayerChoice():
+    while True:
         drawboard()
         print("It is X's turn. Please choose a square.")
         choice = input()
         try:
             choice = int(choice)
         except ValueError:
-            drawboard()
-            print(
-                f"{choice} is not a valid input. Enter a number from 1 to 9 to select a square."
-            )
-            input("Press Enter to continue.")
+            promptCorrectEntry(choice)
             continue
 
         if choice < 1 or choice > 9:
-            drawboard()
-            print(
-                f"{choice} is not a valid input. Enter a number from 1 to 9 to select a square."
-            )
-            input("Press Enter to continue.")
+            promptCorrectEntry(choice)
             continue
 
         if board[choice - 1] != " ":
@@ -134,10 +132,21 @@ def game():
             )
             input("Press Enter to continue.")
             continue
+    
+        return choice - 1
+    
 
-        board[choice - 1] = "X"
-        xs.append(choice-1)
-        valid.remove(choice-1)
+def game():
+    turn = 0
+
+    welcomePlayer()
+    
+    while True: 
+        choice = getPlayerChoice()
+        
+        board[choice] = "X"
+        xs.append(choice)
+        valid.remove(choice)
         turn += 1
 
         if turn >= 5 and checkwinner("X"):
