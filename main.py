@@ -50,7 +50,7 @@ def promptPlayAgain():
         xs = []
         os = []
         return True
-
+    else: return False
 
 def OsChoice():
     global valid
