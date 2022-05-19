@@ -42,8 +42,8 @@ def clearboard():
 
 def promptPlayAgain():
     global valid, xs, os
-    guess = input("Enter yes to play again. ").lower()
-    if guess == "yes" or guess == "y":
+    playAgain = input("Enter yes to play again. ").lower()
+    if playAgain == "yes" or playAgain == "y":
         for i in range(len(board)):
             board[i] = str(i + 1)
         valid = [0,1,2,3,4,5,6,7,8,9]
@@ -53,19 +53,6 @@ def promptPlayAgain():
 
 
 def OsChoice():
-    """
-    valid = []
-    xs = []
-    os = []
-
-    for i in range(len(board)):
-        if board[i] == " ":
-            valid.append(i)
-        if board[i] == "X":
-            xs.append(i)
-        elif board[i] == "O":
-            os.append(i)
-    """
     global valid
     
     # If it's the second turn and the center isn't taken, take the center
@@ -109,7 +96,6 @@ def winorblock(positions, valid):
 
 def game():
     turn = 0
-    player = "X"
 
     drawboard()
     clearboard()
@@ -121,7 +107,7 @@ def game():
 
     while True: 
         drawboard()
-        print(f"It is {player}'s turn. Please choose a square.")
+        print("It is X's turn. Please choose a square.")
         choice = input()
         try:
             choice = int(choice)
@@ -149,12 +135,12 @@ def game():
             input("Press Enter to continue.")
             continue
 
-        board[choice - 1] = player
+        board[choice - 1] = "X"
         xs.append(choice-1)
         valid.remove(choice-1)
         turn += 1
 
-        if turn >= 5 and checkwinner(player):
+        if turn >= 5 and checkwinner("X"):
             break
         
         if turn == 9:
