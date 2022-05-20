@@ -1,9 +1,9 @@
 # TicTacToe---Computer-O
-Python TicTacToe game - computer cannot lose
+Python TicTacToe game - computer is challenging, but can be beat
 
 Hosted on Replit at [https://replit.com/@JohnDugger1/TicTacToe-Computer-O#main.py](https://replit.com/@JohnDugger1/TicTacToe-Computer-O#main.py)
 
-I believe that I've made it so that the computer cannot lose with a simple algorithm for O's move:
+I've made it so that the computer is challenging with a simple algorithm for O's move:
 1. Take the center
 2. If two Os in a row, take the third spot
 3. If two Xs in a row, take the third spot
