@@ -2,7 +2,7 @@ from os import system, name
 import random
 
 board = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-valid = [0,1,2,3,4,5,6,7,8,9]
+valid = {0,1,2,3,4,5,6,7,8,9}
 xs = []
 os = []
 
@@ -46,7 +46,7 @@ def promptPlayAgain():
     if playAgain == "yes" or playAgain == "y":
         for i in range(len(board)):
             board[i] = str(i + 1)
-        valid = [0,1,2,3,4,5,6,7,8,9]
+        valid = {0,1,2,3,4,5,6,7,8,9}
         xs = []
         os = []
         return True
@@ -57,7 +57,7 @@ def OsChoice():
     
     # If it's the second turn and the center isn't taken, take the center
     if 4 in valid:
-        choice = [4]
+        choice = {4}
     # Prioritizes 3 Os, then block 3 Xs
     elif len(temp := winorblock(os, valid)) > 0:
         choice = temp
@@ -65,33 +65,33 @@ def OsChoice():
         choice = temp
     # If it's the fourth turn, O is in center, and X has at least one corner, take an edge
     elif len(valid) == 6 and 4 in os and any(i in xs for i in (0, 2, 4, 6)):
-        choice = list(set(valid) & {1, 3, 5, 7})
+        choice = valid & {1, 3, 5, 7}
     # Otherwise, take a corner if available
     elif 0 in valid or 2 in valid or 6 in valid or 8 in valid:
-        choice = list(set(valid) & {0, 2, 6, 8})
+        choice = valid & {0, 2, 6, 8}
     else: choice = valid
     
-    return random.choice(choice)
+    return random.choice(list(choice))
 
 
 def winorblock(positions, valid):
-    best = []
+    best = set()
     
     # Checking for two of the same player in a row
     for i in positions:
         for j in positions:
-            if (i,j) in ((1,2), (3,6), (4,8)): best.append(0)
-            if (i,j) in ((0,2), (4,7)): best.append(1)
-            if (i,j) in ((0,1), (4,6), (5,8)): best.append(2)
-            if (i,j) in ((0,6), (4,5)): best.append(3)
-            if (i,j) in ((0,8), (1,7), (2,6), (3,5)): best.append(4)
-            if (i,j) in ((3,4), (2,8)): best.append(5)
-            if (i,j) in ((0,3), (2,4), (7,8)): best.append(6)
-            if (i,j) in ((1,4), (6,8)): best.append(7)
-            if (i,j) in ((0,4), (2,5), (6,7)): best.append(8)
+            if (i,j) in ((1,2), (3,6), (4,8)): best.add(0)
+            if (i,j) in ((0,2), (4,7)): best.add(1)
+            if (i,j) in ((0,1), (4,6), (5,8)): best.add(2)
+            if (i,j) in ((0,6), (4,5)): best.add(3)
+            if (i,j) in ((0,8), (1,7), (2,6), (3,5)): best.add(4)
+            if (i,j) in ((3,4), (2,8)): best.add(5)
+            if (i,j) in ((0,3), (2,4), (7,8)): best.add(6)
+            if (i,j) in ((1,4), (6,8)): best.add(7)
+            if (i,j) in ((0,4), (2,5), (6,7)): best.add(8)
     
     # Uses the intersection of the best and valid sets
-    return list(set(best) & set(valid))
+    return best & valid
 
 
 def welcomePlayer():
