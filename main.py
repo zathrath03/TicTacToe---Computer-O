@@ -1,16 +1,19 @@
 from os import system, name
 import random
 
+
 board = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 valid = {0,1,2,3,4,5,6,7,8,9}
 xs = []
 os = []
+turn = 0
+
 
 def drawboard():
     # Clears the screen
-    command = 'clear'
     if name in ('nt', 'dos'):
         command = 'cls'
+    else: command = 'clear'
     system(command)
 
     # Prints the board
@@ -33,6 +36,7 @@ def checkwinner(player):
         drawboard()
         print(f"Player {player} wins!")
         return True
+    else: return False
 
 
 def clearboard():
@@ -51,6 +55,7 @@ def promptPlayAgain():
         os = []
         return True
     else: return False
+
 
 def OsChoice():
     global valid
@@ -134,34 +139,33 @@ def getPlayerChoice():
             continue
     
         return choice - 1
-    
+
+
+def updateBoard(player, choice):
+    global turn
+    board[choice] = player
+    xs.append(choice) if player == "X" else os.append(choice)
+    valid.remove(choice)
+    turn += 1
+
 
 def game():
-    turn = 0
 
     welcomePlayer()
     
     while True: 
         choice = getPlayerChoice()
-        
-        board[choice] = "X"
-        xs.append(choice)
-        valid.remove(choice)
-        turn += 1
+        updateBoard("X", choice)
 
         if turn >= 5 and checkwinner("X"):
-            break
-        
-        if turn == 9:
+            break        
+        elif turn == 9:
             drawboard()
             print("It's a draw!")
             break
 
         choice = OsChoice()
-        board[choice] = "O"
-        os.append(choice)
-        valid.remove(choice)
-        turn += 1
+        updateBoard("O", choice)
         
         if turn >= 5 and checkwinner("O"):
             break
