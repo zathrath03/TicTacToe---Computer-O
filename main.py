@@ -4,8 +4,8 @@ import random
 
 board = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 valid = {0,1,2,3,4,5,6,7,8,9}
-xs = []
-os = []
+xs = set()
+os = set()
 turn = 0
 
 
@@ -51,8 +51,8 @@ def promptPlayAgain():
         for i in range(len(board)):
             board[i] = str(i + 1)
         valid = {0,1,2,3,4,5,6,7,8,9}
-        xs = []
-        os = []
+        xs = set()
+        os = set()
         return True
     else: return False
 
@@ -144,7 +144,7 @@ def getPlayerChoice():
 def updateBoard(player, choice):
     global turn
     board[choice] = player
-    xs.append(choice) if player == "X" else os.append(choice)
+    xs.add(choice) if player == "X" else os.add(choice)
     valid.remove(choice)
     turn += 1
 
